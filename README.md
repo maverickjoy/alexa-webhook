@@ -4,4 +4,4 @@
 
 ----------
 The thing with alexa custom skill integration is we have to manage the sessions at our own end, hence we have to send response in their response object given at their request time to our servers https link.
-Therefore its a challenge if we directly accomdate it our webhook end. Well presently Im storing it on runtime and deleting it too with every request answered, but incase of a very busy server one can go for Redis db.
+Therefore its a challenge if we try to directly accommodate it at our webhook end. Well, presently I'm storing it on runtime and deleting it too with every request answered, but incase of a very busy server one can go for Redis db.
