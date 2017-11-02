@@ -4,7 +4,6 @@ const
   express       = require('express'),
   bodyParser    = require('body-parser'),
   app           = express().use(bodyParser.json()),
-  reply         = require('./reply.js'),
   common        = require('./utils/common.js'),
   cache         = require('./session-cache.js'),
   request       = require('request'),
