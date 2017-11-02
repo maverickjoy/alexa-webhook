@@ -1,15 +1,15 @@
 'use strict';
 
 const
-  express = require('express'),
-  bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()),
-  reply = require('./reply.js'),
-  common = require('./utils/common.js'),
-  cache = require('./session-cache.js'),
-  request = require('request'),
-  config = require('./configuration/config.json'),
-  parser = require('./parse.js');
+  express       = require('express'),
+  bodyParser    = require('body-parser'),
+  app           = express().use(bodyParser.json()),
+  reply         = require('./reply.js'),
+  common        = require('./utils/common.js'),
+  cache         = require('./session-cache.js'),
+  request       = require('request'),
+  config        = require('./configuration/config.json'),
+  parser        = require('./parse.js');
 
 app.listen(process.env.PORT || 1337, () => console.log('alexa-webhook is listening'));
 
@@ -22,9 +22,6 @@ app.post('/alexa-webhook', (req, res) => {
   var msg = requestObj.msg;
   var sessionId = requestObj.sessionId;
 
-  // console.log("-------================---------");
-  // console.log("requestObj : ", JSON.stringify(requestObj, null, 4));
-
   console.log("-------================---------");
   console.log("requestType : ", JSON.stringify(requestType, null, 4));
 
@@ -32,20 +29,10 @@ app.post('/alexa-webhook', (req, res) => {
   console.log("msg : ", JSON.stringify(msg, null, 4));
   console.log("");
   console.log("-------================---------");
-  //
-  // console.log("sessionId : ", JSON.stringify(sessionId, null, 4));
-  // console.log("-------================---------");
 
 
   cache.insertSession(sessionId, res);
   requestBotWebhook(requestObj);
-
-
-  // var response = reply(msg, common.decode('HeyZot'));
-  // console.log("-------================---------");
-  // console.log("response : ", JSON.stringify(response, null, 4));
-  //
-  // res.send(response);
 
 });
 
@@ -92,5 +79,4 @@ function requestBotWebhook(requestObj) {
       return;
     }
   });
-
 }

@@ -3,7 +3,8 @@
 const
   sha1 = require('sha1'),
   mongoose = require('mongoose');
-  
+
+
 function getSlotValues(slots) {
   if (!slots) return '';
   return Object.keys(slots).map(key => slots[key].value || '').join(' ');
@@ -28,7 +29,7 @@ module.exports = function alexaParse(messageObject) {
     return {
       sender: sha1(messageObject.session.user.userId),
       applicationId: messageObject.session.application.applicationId,
-      requestType: requestTypeModification  ? requestTypeModification : messageObject.request.type, // LaunchRequest,IntentRequest,StopRequest;
+      requestType: requestTypeModification ? requestTypeModification : messageObject.request.type, // LaunchRequest,IntentRequest,StopRequest;
       msg: textMsg,
       sessionId: messageObject.session.sessionId,
       originalRequest: messageObject,
@@ -46,4 +47,3 @@ module.exports = function alexaParse(messageObject) {
   }
 
 };
-

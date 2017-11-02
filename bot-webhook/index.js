@@ -1,11 +1,11 @@
 'use strict';
 
 const
-  express = require('express'),
-  bodyParser = require('body-parser'),
-  request = require('request'),
-  config = require('./configuration/config.json'),
-  app = express().use(bodyParser.json());
+  express       = require('express'),
+  bodyParser    = require('body-parser'),
+  request       = require('request'),
+  config        = require('./configuration/config.json'),
+  app           = express().use(bodyParser.json());
 
 
 app.listen(process.env.PORT || 1337, () => console.log('bot-webhook is listening'));
@@ -14,27 +14,101 @@ app.post('/bot-webhook', (req, res) => {
   let body = req.body;
 
   var sessionId = body.sessionId;
+  var requestType = body.requestType;
   var botResponse = body.msg;
+  var responseObj = {};
 
-  var responseObj = {
-    sessionId: sessionId,
-    alexaResponse: {
-      version: "string",
-      response: {
-        outputSpeech: {
-          type: 'PlainText',
-          text: botResponse
-        },
-        reprompt: {
-          outputSpeech: {
-            type: "PlainText",
-            text: "Would you like me to repeat"
+  switch (requestType) {
+
+    case "LaunchRequest":
+      responseObj = {
+        sessionId: sessionId,
+        alexaResponse: {
+          version: "string",
+          response: {
+            outputSpeech: {
+              type: 'PlainText',
+              text: "Hi, I am happy that you are here. maverickjoy welcomes you."
+            },
+            reprompt: {
+              outputSpeech: {
+                type: "PlainText",
+                text: "Would you like me to repeat"
+              }
+            },
+            shouldEndSession: false
           }
-        },
-        shouldEndSession: false
+        }
       }
-    }
+      break;
+
+    case "IntentRequest":
+      responseObj = {
+        sessionId: sessionId,
+        alexaResponse: {
+          version: "string",
+          response: {
+            outputSpeech: {
+              type: 'PlainText',
+              text: botResponse
+            },
+            reprompt: {
+              outputSpeech: {
+                type: "PlainText",
+                text: "Would you like me to repeat"
+              }
+            },
+            shouldEndSession: false
+          }
+        }
+      }
+      break;
+
+    case "StopRequest":
+      responseObj = {
+        sessionId: sessionId,
+        alexaResponse: {
+          version: "string",
+          response: {
+            outputSpeech: {
+              type: 'PlainText',
+              text: "Thank You for Talking To maverickjoy. Bye"
+            },
+            reprompt: {
+              outputSpeech: {
+                type: "PlainText",
+                text: "Would you like me to repeat"
+              }
+            },
+            shouldEndSession: true
+          }
+        }
+      }
+      break;
+
+    default:
+      responseObj = {
+        sessionId: sessionId,
+        alexaResponse: {
+          version: "string",
+          response: {
+            outputSpeech: {
+              type: 'PlainText',
+              text: "Unknown-Type"
+            },
+            reprompt: {
+              outputSpeech: {
+                type: "PlainText",
+                text: "Would you like me to repeat"
+              }
+            },
+            shouldEndSession: false
+          }
+        }
+      }
+
   }
+
   return responseAlexaWebhook(responseObj);
 
 });

@@ -4,7 +4,7 @@ const
 
 class SessionCache {
   constructor() {
-    console.log("====== Session Cache Constructor =========");
+    console.log("========= Session Cache Constructor =========");
     this.sessionMap = {};
   }
 
